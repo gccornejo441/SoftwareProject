@@ -30,7 +30,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class AddProductController implements Initializable {
+public class AddProduct implements Initializable {
 
     Inventory inv;
 
@@ -56,7 +56,7 @@ public class AddProductController implements Initializable {
     private ObservableList<Part> partsInventorySearch = FXCollections.observableArrayList();
     private ObservableList<Part> assocPartList = FXCollections.observableArrayList();
 
-    public AddProductController(Inventory inv) {
+    public AddProduct(Inventory inv) {
         this.inv = inv;
     }
 
@@ -77,7 +77,7 @@ public class AddProductController implements Initializable {
 
         }
         if (inv.productListSize() == 999) {
-            AlertMessage.errorProduct(3, null);
+            Alert.errorProduct(3, null);
         } else {
             match = generateNum(num);
 
@@ -132,7 +132,7 @@ public class AddProductController implements Initializable {
             int id = addPart.getId();
             for (int i = 0; i < assocPartList.size(); i++) {
                 if (assocPartList.get(i).getId() == id) {
-                    AlertMessage.errorProduct(2, null);
+                    Alert.errorProduct(2, null);
                     repeatedItem = true;
                 }
             }
@@ -155,7 +155,7 @@ public class AddProductController implements Initializable {
         Part removePart = assocPartsTable.getSelectionModel().getSelectedItem();
         boolean deleted = false;
         if (removePart != null) {
-            boolean remove = AlertMessage.confirmationWindow(removePart.getName());
+            boolean remove = Alert.confirmationWindow(removePart.getName());
             if (remove) {
                 assocPartList.remove(removePart);
                 assocPartsTable.refresh();
@@ -164,9 +164,9 @@ public class AddProductController implements Initializable {
             return;
         }
         if (deleted) {
-            AlertMessage.infoWindow(1, removePart.getName());
+            Alert.infoWindow(1, removePart.getName());
         } else {
-            AlertMessage.infoWindow(2, "");
+            Alert.infoWindow(2, "");
         }
 
     }
@@ -175,7 +175,7 @@ public class AddProductController implements Initializable {
     @FXML
     private void cancelAddProduct(MouseEvent event
     ) {
-        boolean cancel = AlertMessage.cancel();
+        boolean cancel = Alert.cancel();
         if (cancel) {
             mainScreen(event);
         }
@@ -192,7 +192,7 @@ public class AddProductController implements Initializable {
             minCost += assocPartList.get(i).getPrice();
         }
         if (name.getText().trim().isEmpty() || name.getText().trim().toLowerCase().equals("part name")) {
-            AlertMessage.errorProduct(4, name);
+            Alert.errorProduct(4, name);
             return;
         }
         for (TextField fieldCount1 : fieldCount) {
@@ -208,23 +208,23 @@ public class AddProductController implements Initializable {
             }
         }
         if (Integer.parseInt(min.getText().trim()) > Integer.parseInt(max.getText().trim())) {
-            AlertMessage.errorProduct(10, min);
+            Alert.errorProduct(10, min);
             return;
         }
         if (Integer.parseInt(count.getText().trim()) < Integer.parseInt(min.getText().trim())) {
-            AlertMessage.errorProduct(8, count);
+            Alert.errorProduct(8, count);
             return;
         }
         if (Integer.parseInt(count.getText().trim()) > Integer.parseInt(max.getText().trim())) {
-            AlertMessage.errorProduct(9, count);
+            Alert.errorProduct(9, count);
             return;
         }
         if (Double.parseDouble(price.getText().trim()) < minCost) {
-            AlertMessage.errorProduct(6, price);
+            Alert.errorProduct(6, price);
             return;
         }
         if (assocPartList.isEmpty()) {
-            AlertMessage.errorProduct(7, null);
+            Alert.errorProduct(7, null);
             return;
         }
 
@@ -271,7 +271,7 @@ public class AddProductController implements Initializable {
     private void mainScreen(Event event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/MainScreen.fxml"));
-            MainScreenController controller = new MainScreenController(inv);
+            MainScreen controller = new MainScreen(inv);
 
             loader.setController(controller);
             Parent root = loader.load();
@@ -289,16 +289,16 @@ public class AddProductController implements Initializable {
         boolean error = false;
         try {
             if (field.getText().trim().isEmpty() || field.getText().trim() == null) {
-                AlertMessage.errorProduct(1, field);
+                Alert.errorProduct(1, field);
                 return true;
             }
             if (field == price && Double.parseDouble(field.getText().trim()) < 0) {
-                AlertMessage.errorProduct(5, field);
+                Alert.errorProduct(5, field);
                 error = true;
             }
         } catch (NumberFormatException e) {
             error = true;
-            AlertMessage.errorProduct(3, field);
+            Alert.errorProduct(3, field);
             System.out.println(e);
 
         }
@@ -308,11 +308,11 @@ public class AddProductController implements Initializable {
     private boolean checkType(TextField field) {
 
         if (field == price & !field.getText().trim().matches("\\d+(\\.\\d+)?")) {
-            AlertMessage.errorProduct(3, field);
+            Alert.errorProduct(3, field);
             return true;
         }
         if (field != price & !field.getText().trim().matches("[0-9]*")) {
-            AlertMessage.errorProduct(3, field);
+            Alert.errorProduct(3, field);
             return true;
         }
         return false;

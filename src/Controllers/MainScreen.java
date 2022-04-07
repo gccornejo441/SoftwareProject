@@ -37,7 +37,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 /* Main class */
 
-public class MainScreenController implements Initializable {
+public class MainScreen implements Initializable {
 
     Inventory inv;
 
@@ -62,7 +62,7 @@ public class MainScreenController implements Initializable {
     private ObservableList<Part> partsInventorySearch = FXCollections.observableArrayList();
     private ObservableList<Product> productInventorySearch = FXCollections.observableArrayList();
 
-    public MainScreenController(Inventory inv) {
+    public MainScreen(Inventory inv) {
         this.inv = inv;
     }
 
@@ -74,7 +74,7 @@ public class MainScreenController implements Initializable {
     }
 
     /**
-     * Generates Price column in the table and assigns ALL the parts in the Inventory.
+     * Creates a table with a Price column and assigns ALL of the parts in the Inventory..
      */
     private void tableParts() {
         partInventory.setAll(inv.getAllParts());
@@ -109,7 +109,7 @@ public class MainScreenController implements Initializable {
         Platform.exit();
     }
 
-    /* Search for parts function */
+    /* The function of looking for pieces */
     @FXML
     private void searchForPart(MouseEvent event) {
         if (!partSearchBox.getText().trim().isEmpty()) {
@@ -119,7 +119,7 @@ public class MainScreenController implements Initializable {
     }
 
     /**
-    This is the old way of doing the search. It doesn't use the Inventory lookupProduct(partName) method.
+     This is the traditional method of conducting a search. The Inventory lookupProduct(partName) method isn't used.
     */
     @FXML
     private void searchForProduct(MouseEvent event) {
@@ -136,7 +136,7 @@ public class MainScreenController implements Initializable {
     }
 
     /**
-     * Clears either one of the search boxes and shows ALL the parts/products in the Inventory.
+     * Clears one of the search boxes and displays the entire inventory of components and items.
      */
     @FXML
     void clearText(MouseEvent event) {
@@ -156,7 +156,7 @@ public class MainScreenController implements Initializable {
     }
 
     /**
-     * Go to the Add Part Screen
+     * To get started, go to the Add Parts screen.
      */
     @FXML
     private void addPart(MouseEvent event
@@ -164,7 +164,7 @@ public class MainScreenController implements Initializable {
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/AddPart.fxml"));
-            AddPartController controller = new AddPartController(inv);
+            AddPart controller = new AddPart(inv);
 
             loader.setController(controller);
             Parent root = loader.load();
@@ -179,7 +179,7 @@ public class MainScreenController implements Initializable {
     }
 
     /**
-     * Go to the Modify Part Screen
+     * Goes to change parts screen
      */
     @FXML
     private void modifyPart(MouseEvent event
@@ -195,7 +195,7 @@ public class MainScreenController implements Initializable {
                 return;
             } else {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/ModifyPart.fxml"));
-                ModifyPartController controller = new ModifyPartController(inv, selected);
+                ModifyPart controller = new ModifyPart(inv, selected);
 
                 loader.setController(controller);
                 Parent root = loader.load();
@@ -204,8 +204,6 @@ public class MainScreenController implements Initializable {
                 stage.setScene(scene);
                 stage.setResizable(false);
                 stage.show();
-//                ModifyPartController c  = (ModifyPartController)loader.getController();
-//                c.setSelectPart(selected);
             }
         } catch (IOException e) {
 
@@ -264,7 +262,7 @@ public class MainScreenController implements Initializable {
     }
 
     /**
-     * Go to the Modify Product Screen
+     * This takes you to the modify parts panel
      */
     @FXML
     private void modifyProduct(MouseEvent event
@@ -281,7 +279,7 @@ public class MainScreenController implements Initializable {
 
             } else {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/ModifyProduct.fxml"));
-                ModifyProductController controller = new ModifyProductController(inv, productSelected);
+                ModifyProduct controller = new ModifyProduct(inv, productSelected);
 
                 loader.setController(controller);
                 Parent root = loader.load();
@@ -301,7 +299,7 @@ public class MainScreenController implements Initializable {
     ) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/AddProduct.fxml"));
-            AddProductController controller = new AddProductController(inv);
+            AddProduct controller = new AddProduct(inv);
 
             loader.setController(controller);
             Parent root = loader.load();
@@ -373,7 +371,6 @@ public class MainScreenController implements Initializable {
     private <T> TableColumn<T, Double> formatPrice() {
         TableColumn<T, Double> costCol = new TableColumn("Price");
         costCol.setCellValueFactory(new PropertyValueFactory<>("Price"));
-        // Format as currency
         costCol.setCellFactory((TableColumn<T, Double> column) -> {
             return new TableCell<T, Double>() {
                 @Override

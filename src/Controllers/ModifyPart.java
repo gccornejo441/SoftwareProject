@@ -5,8 +5,6 @@
  */
 package Controllers;
 
-import Controllers.MainScreenController;
-import Controllers.AlertMessage;
 import Model.InHouse;
 import Model.Inventory;
 import Model.OutSourced;
@@ -26,12 +24,7 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-/**
- * FXML Controller class
- *
- * @author Alvaro Escobar
- */
-public class ModifyPartController implements Initializable {
+public class ModifyPart implements Initializable {
 
     Inventory inv;
     Part part;
@@ -59,17 +52,12 @@ public class ModifyPartController implements Initializable {
     @FXML
     private Button modifyPartSaveButton;
 
-    public ModifyPartController(Inventory inv, Part part) {
+    public ModifyPart(Inventory inv, Part part) {
         this.inv = inv;
         this.part = part;
     }
 
-//    public void setSelectPart(Part sel){
-//        this.part = sel;
-//    }
-    /**
-     * Initializes the controller class.
-     */
+    /* Initializor */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setData();
@@ -108,23 +96,20 @@ public class ModifyPartController implements Initializable {
     }
 
     @FXML
-    private void clearTextField(MouseEvent event
-    ) {
+    private void clearTextField(MouseEvent event) {
         Object source = event.getSource();
         TextField field = (TextField) source;
         field.setText("");
     }
 
     @FXML
-    private void selectInHouse(MouseEvent event
-    ) {
+    private void selectInHouse(MouseEvent event) {
         companyLabel.setText("Machine ID");
 
     }
 
     @FXML
-    private void selectOutSourced(MouseEvent event
-    ) {
+    private void selectOutSourced(MouseEvent event) {
         companyLabel.setText("Company Name");
 
     }
@@ -165,29 +150,29 @@ public class ModifyPartController implements Initializable {
                 }
             }
             if (name.getText().trim().isEmpty() || name.getText().trim().toLowerCase().equals("part name")) {
-                AlertMessage.errorPart(4, name);
+                Alert.errorPart(4, name);
                 return;
             }
             if (Integer.parseInt(min.getText().trim()) > Integer.parseInt(max.getText().trim())) {
-                AlertMessage.errorPart(8, min);
+                Alert.errorPart(8, min);
                 return;
             }
             if (Integer.parseInt(count.getText().trim()) < Integer.parseInt(min.getText().trim())) {
-                AlertMessage.errorPart(6, count);
+                Alert.errorPart(6, count);
                 return;
             }
             if (Integer.parseInt(count.getText().trim()) > Integer.parseInt(max.getText().trim())) {
-                AlertMessage.errorPart(7, count);
+                Alert.errorPart(7, count);
                 return;
             }
 
             if (end) {
                 return;
             } else if (outSourcedRadio.isSelected() && company.getText().trim().isEmpty()) {
-                AlertMessage.errorPart(1, company);
+                Alert.errorPart(1, company);
                 return;
             } else if (inHouseRadio.isSelected() && !company.getText().matches("[0-9]*")) {
-                AlertMessage.errorPart(9, company);
+                Alert.errorPart(9, company);
                 return;
 
             } else if (inHouseRadio.isSelected() & part instanceof InHouse) {
@@ -202,7 +187,7 @@ public class ModifyPartController implements Initializable {
             }
 
         } else {
-            AlertMessage.errorPart(2, null);
+            Alert.errorPart(2, null);
             return;
 
         }
@@ -234,7 +219,7 @@ public class ModifyPartController implements Initializable {
     private void mainScreen(MouseEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/MainScreen.fxml"));
-            MainScreenController controller = new MainScreenController(inv);
+            MainScreen controller = new MainScreen(inv);
 
             loader.setController(controller);
             Parent root = loader.load();
@@ -252,16 +237,16 @@ public class ModifyPartController implements Initializable {
         boolean error = false;
         try {
             if (field.getText().trim().isEmpty() || field.getText().trim() == null) {
-                AlertMessage.errorPart(1, field);
+                Alert.errorPart(1, field);
                 return true;
             }
             if (field == price && Double.parseDouble(field.getText().trim()) <= 0.0) {
-                AlertMessage.errorPart(5, field);
+                Alert.errorPart(5, field);
                 error = true;
             }
         } catch (Exception e) {
             error = true;
-            AlertMessage.errorPart(3, field);
+            Alert.errorPart(3, field);
             System.out.println(e);
 
         }
@@ -271,11 +256,11 @@ public class ModifyPartController implements Initializable {
     private boolean checkType(TextField field) {
 
         if (field == price & !field.getText().trim().matches("\\d+(\\.\\d+)?")) {
-            AlertMessage.errorPart(3, field);
+            Alert.errorPart(3, field);
             return true;
         }
         if (field != price & !field.getText().trim().matches("[0-9]*")) {
-            AlertMessage.errorPart(3, field);
+            Alert.errorPart(3, field);
             return true;
         }
         return false;
@@ -283,7 +268,7 @@ public class ModifyPartController implements Initializable {
     }
 
     private boolean cancel() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.CONFIRMATION);
         alert.setTitle("Cancel");
         alert.setHeaderText("Are you sure you want to cancel?");
         alert.setContentText("Click ok to confirm");

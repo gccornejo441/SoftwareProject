@@ -5,8 +5,6 @@
  */
 package Controllers;
 
-import Controllers.MainScreenController;
-import Controllers.AlertMessage;
 import Model.Inventory;
 import Model.Part;
 import Model.Product;
@@ -19,7 +17,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableView;
@@ -29,19 +26,13 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-/**
- * FXML Controller class
- *
- * @author Alvaro Escobar
- */
-    public class ModifyProductController implements Initializable {
+    public class ModifyProduct implements Initializable {
 
     Inventory inv;
     Product product;
@@ -68,7 +59,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
     private ObservableList<Part> partsInventorySearch = FXCollections.observableArrayList();
     private ObservableList<Part> assocPartList = FXCollections.observableArrayList();
 
-    public ModifyProductController(Inventory inv, Product product) {
+    public ModifyProduct(Inventory inv, Product product) {
         this.inv = inv;
         this.product = product;
     }
@@ -130,9 +121,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
             return;
         }
         if (deleted) {
-            AlertMessage.infoWindow(1, removePart.getName());
+            Alert.infoWindow(1, removePart.getName());
         } else {
-            AlertMessage.infoWindow(2, "");
+            Alert.infoWindow(2, "");
         }
 
     }
@@ -148,7 +139,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
             int id = addPart.getId();
             for (int i = 0; i < assocPartList.size(); i++) {
                 if (assocPartList.get(i).getId() == id) {
-                    AlertMessage.errorProduct(2, null);
+                    Alert.errorProduct(2, null);
                     repeatedItem = true;
                 }
             }
@@ -162,7 +153,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
     @FXML
     private void cancelModify(MouseEvent event) {
-        boolean cancel = AlertMessage.cancel();
+        boolean cancel = Alert.cancel();
         if (cancel) {
             mainScreen(event);
         } else {
@@ -180,7 +171,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
             minCost += assocPartList.get(i).getPrice();
         }
         if (name.getText().trim().isEmpty() || name.getText().trim().toLowerCase().equals("part name")) {
-            AlertMessage.errorProduct(4, name);
+            Alert.errorProduct(4, name);
             return;
         }
         for (int i = 0; i < fieldCount.length; i++) {
@@ -196,23 +187,23 @@ import javafx.scene.control.cell.PropertyValueFactory;
             }
         }
         if (Integer.parseInt(min.getText().trim()) > Integer.parseInt(max.getText().trim())) {
-            AlertMessage.errorProduct(10, min);
+            Alert.errorProduct(10, min);
             return;
         }
         if (Integer.parseInt(count.getText().trim()) < Integer.parseInt(min.getText().trim())) {
-            AlertMessage.errorProduct(8, count);
+            Alert.errorProduct(8, count);
             return;
         }
         if (Integer.parseInt(count.getText().trim()) > Integer.parseInt(max.getText().trim())) {
-            AlertMessage.errorProduct(9, count);
+            Alert.errorProduct(9, count);
             return;
         }
         if (Double.parseDouble(price.getText().trim()) < minCost) {
-            AlertMessage.errorProduct(6, price);
+            Alert.errorProduct(6, price);
             return;
         }
         if (assocPartList.size() == 0) {
-            AlertMessage.errorProduct(7, null);
+            Alert.errorProduct(7, null);
             return;
         }
 
@@ -264,7 +255,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
     }
 
     private boolean confirmationWindow(String name) {
-        Alert alert = new Alert(AlertType.CONFIRMATION);
+        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(AlertType.CONFIRMATION);
         alert.setTitle("Delete part");
         alert.setHeaderText("Are you sure you want to delete: " + name);
         alert.setContentText("Click ok to confirm");
@@ -280,7 +271,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
     private void mainScreen(Event event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/MainScreen.fxml"));
-            MainScreenController controller = new MainScreenController(inv);
+            MainScreen controller = new MainScreen(inv);
 
             loader.setController(controller);
             Parent root = loader.load();
@@ -298,16 +289,16 @@ import javafx.scene.control.cell.PropertyValueFactory;
         boolean error = false;
         try {
             if (field.getText().trim().isEmpty() || field.getText().trim() == null) {
-                AlertMessage.errorProduct(1, field);
+                Alert.errorProduct(1, field);
                 return true;
             }
             if (field == price && Double.parseDouble(field.getText().trim()) < 0) {
-                AlertMessage.errorProduct(5, field);
+                Alert.errorProduct(5, field);
                 error = true;
             }
         } catch (Exception e) {
             error = true;
-            AlertMessage.errorProduct(3, field);
+            Alert.errorProduct(3, field);
             System.out.println(e);
 
         }
@@ -317,11 +308,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
     private boolean checkType(TextField field) {
 
         if (field == price & !field.getText().trim().matches("\\d+(\\.\\d+)?")) {
-            AlertMessage.errorProduct(3, field);
+            Alert.errorProduct(3, field);
             return true;
         }
         if (field != price & !field.getText().trim().matches("[0-9]*")) {
-            AlertMessage.errorProduct(3, field);
+            Alert.errorProduct(3, field);
             return true;
         }
         return false;
@@ -331,7 +322,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
     private <T> TableColumn<T, Double> formatPrice() {
         TableColumn<T, Double> costCol = new TableColumn("Price");
         costCol.setCellValueFactory(new PropertyValueFactory<>("Price"));
-        // Format as currency
         costCol.setCellFactory((TableColumn<T, Double> column) -> {
             return new TableCell<T, Double>() {
                 @Override

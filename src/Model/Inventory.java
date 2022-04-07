@@ -8,9 +8,6 @@ package Model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-/**
- * @author Alvaro Escobar
- */
 public class Inventory {
 
     private ObservableList<Product> allProducts = FXCollections.observableArrayList();

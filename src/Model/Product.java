@@ -7,9 +7,6 @@ package Model;
 
 import java.util.ArrayList;
 
-/**
- * @author Alvaro Escobar
- */
 public class Product {
 
     private ArrayList<Part> associatedParts = new ArrayList<Part>();

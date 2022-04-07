@@ -5,27 +5,26 @@
  */
 package Controllers;
 
-import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 
 import java.util.Optional;
 
-public class AlertMessage {
+public class Alert {
 
-    public static void errorPart(int code, TextField field) {
+    public static void errorPart(int value, TextField field) {
         fieldError(field);
 
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
         alert.setTitle("Error adding part");
         alert.setHeaderText("Cannot add part");
-        switch (code) {
+        switch (value) {
             case 1: {
                 alert.setContentText("Field is empty.");
                 break;
             }
             case 2: {
-                alert.setContentText("Please select In House/OutSourced");
+                alert.setContentText("Please select In House or OutSourced");
                 break;
             }
             case 3: {
@@ -67,7 +66,7 @@ public class AlertMessage {
     public static void errorProduct(int code, TextField field) {
         fieldError(field);
 
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
         alert.setTitle("Error cannot add product.");
         alert.setHeaderText("Cannot add product.");
         switch (code) {
@@ -126,32 +125,32 @@ public class AlertMessage {
     }
 
     public static boolean confirmationWindow(String name) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete part");
         alert.setHeaderText("Are you sure you want to delete: " + name);
-        alert.setContentText("Click 'ok' to confirm");
+        alert.setContentText("Click OK to confirm");
         Optional<ButtonType> result = alert.showAndWait();
         return result.get() == ButtonType.OK;
     }
 
     public static boolean cancel() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.CONFIRMATION);
         alert.setTitle("Cancel");
         alert.setHeaderText("Are you sure you want to cancel?");
-        alert.setContentText("Click 'ok' to confirm");
+        alert.setContentText("Click OK to confirm");
         Optional<ButtonType> result = alert.showAndWait();
         return result.get() == ButtonType.OK;
     }
 
     public static void infoWindow(int code, String name) {
         if (code != 2) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
             alert.setTitle("Confirmed");
             alert.setHeaderText(null);
             alert.setContentText(name + " has been deleted!");
             alert.showAndWait();
         } else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
             alert.setTitle("Error");
             alert.setHeaderText(null);
             alert.setContentText("Error, please try again.");

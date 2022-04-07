@@ -18,7 +18,7 @@
             </font>
         </Label>
         <RadioButton fx:id="inHouseRadio" layoutX="188.0" layoutY="70.0" mnemonicParsing="false"
-                     onMouseClicked="#selectInHouse" text="In House">
+                     text="In House">
             <font>
                 <Font size="14.0"/>
             </font>
@@ -27,7 +27,7 @@
             </toggleGroup>
         </RadioButton>
         <RadioButton fx:id="outSourcedRadio" layoutX="275.0" layoutY="70.0" mnemonicParsing="false"
-                     onMouseClicked="#selectOutSourced" text="Out Sourced" toggleGroup="$source">
+                     text="Out Sourced" toggleGroup="$source">
             <padding>
                 <Insets left="20.0"/>
             </padding>
@@ -35,19 +35,19 @@
                 <Font size="14.0"/>
             </font>
         </RadioButton>
-        <TextField fx:id="id" editable="false" layoutX="188.0" layoutY="115.0" onMouseEntered="#idDisabled"
+        <TextField fx:id="id" editable="false" layoutX="188.0" layoutY="115.0"
                    prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: cdcdcd;"/>
-        <TextField fx:id="name" layoutX="188.0" layoutY="165.0" onMouseClicked="#clearTextField" prefHeight="40.0"
+        <TextField fx:id="name" layoutX="188.0" layoutY="165.0" prefHeight="40.0"
                    prefWidth="150.0" text="Part Name"/>
-        <TextField fx:id="count" layoutX="188.0" layoutY="215.0" onMouseClicked="#clearTextField" prefHeight="40.0"
+        <TextField fx:id="count" layoutX="188.0" layoutY="215.0" prefHeight="40.0"
                    prefWidth="150.0" text="Inventory Count"/>
-        <TextField fx:id="price" layoutX="188.0" layoutY="265.0" onMouseClicked="#clearTextField" prefHeight="40.0"
+        <TextField fx:id="price" layoutX="188.0" layoutY="265.0" prefHeight="40.0"
                    prefWidth="150.0" text="Part Price"/>
-        <TextField fx:id="max" layoutX="188.0" layoutY="315.0" onMouseClicked="#clearTextField" prefHeight="40.0"
+        <TextField fx:id="max" layoutX="188.0" layoutY="315.0" prefHeight="40.0"
                    prefWidth="75.0" text="Max"/>
-        <TextField fx:id="company" layoutX="188.0" layoutY="365.0" onMouseClicked="#clearTextField" prefHeight="40.0"
+        <TextField fx:id="company" layoutX="188.0" layoutY="365.0" prefHeight="40.0"
                    prefWidth="150.0" text="Company Name"/>
-        <TextField fx:id="min" layoutX="369.0" layoutY="315.0" onMouseClicked="#clearTextField" prefHeight="40.0"
+        <TextField fx:id="min" layoutX="369.0" layoutY="315.0" prefHeight="40.0"
                    prefWidth="75.0" text="Min"/>
         <Label layoutX="311.0" layoutY="326.0" text="Min">
             <font>
@@ -85,9 +85,9 @@
             </font>
         </Label>
         <Button fx:id="cancelButton" layoutX="394.0" layoutY="485.0" mnemonicParsing="false"
-                onMouseClicked="#cancelModifyPart" prefHeight="36.0" prefWidth="67.0" text="Cancel"/>
+                prefHeight="36.0" prefWidth="67.0" text="Cancel"/>
         <Button fx:id="modifyPartSaveButton" layoutX="183.0" layoutY="445.0" mnemonicParsing="false"
-                onMouseClicked="#saveModifyPart" prefHeight="40.0" prefWidth="110.0" text="Save">
+                prefHeight="40.0" prefWidth="110.0" text="Save">
             <font>
                 <Font size="16.0"/>
             </font>

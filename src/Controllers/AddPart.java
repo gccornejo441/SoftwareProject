@@ -27,7 +27,7 @@ import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
 
-public class AddPartController implements Initializable {
+public class AddPart implements Initializable {
 
     Inventory inv;
 
@@ -52,7 +52,7 @@ public class AddPartController implements Initializable {
     @FXML
     private TextField min;
 
-    public AddPartController(Inventory inv) {
+    public AddPart(Inventory inv) {
         this.inv = inv;
     }
 
@@ -83,7 +83,7 @@ public class AddPartController implements Initializable {
 
         }
         if (inv.partListSize() == 999) {
-            AlertMessage.errorPart(3, null);
+            Alert.errorPart(3, null);
         } else {
             match = verifyIfTaken(num);
 
@@ -125,7 +125,7 @@ public class AddPartController implements Initializable {
 
     @FXML
     private void cancelAddPart(MouseEvent event) {
-        boolean cancel = AlertMessage.cancel();
+        boolean cancel = Alert.cancel();
         if (cancel) {
             mainScreen(event);
         }
@@ -150,29 +150,29 @@ public class AddPartController implements Initializable {
                 }
             }
             if (name.getText().trim().isEmpty() || name.getText().trim().toLowerCase().equals("part name")) {
-                AlertMessage.errorPart(4, name);
+                Alert.errorPart(4, name);
                 return;
             }
             if (Integer.parseInt(min.getText().trim()) > Integer.parseInt(max.getText().trim())) {
-                AlertMessage.errorPart(8, min);
+                Alert.errorPart(8, min);
                 return;
             }
             if (Integer.parseInt(count.getText().trim()) < Integer.parseInt(min.getText().trim())) {
-                AlertMessage.errorPart(6, count);
+                Alert.errorPart(6, count);
                 return;
             }
             if (Integer.parseInt(count.getText().trim()) > Integer.parseInt(max.getText().trim())) {
-                AlertMessage.errorPart(7, count);
+                Alert.errorPart(7, count);
                 return;
             }
             if (end) {
                 return;
             } else if (company.getText().trim().isEmpty() || company.getText().trim().toLowerCase().equals("company name")) {
-                AlertMessage.errorPart(3, company);
+                Alert.errorPart(3, company);
                 return;
 
             } else if (inHouseRadio.isSelected() && !company.getText().trim().matches("[0-9]*")) {
-                AlertMessage.errorPart(9, company);
+                Alert.errorPart(9, company);
                 return;
             } else if (inHouseRadio.isSelected()) {
                 addInHouse();
@@ -183,11 +183,37 @@ public class AddPartController implements Initializable {
             }
 
         } else {
-            AlertMessage.errorPart(2, null);
+            Alert.errorPart(2, null);
             return;
 
         }
         mainScreen(event);
+    }
+
+    private void resetFieldsStyle() {
+        name.setStyle("-fx-border-color: lightgray");
+        count.setStyle("-fx-border-color: lightgray");
+        price.setStyle("-fx-border-color: lightgray");
+        min.setStyle("-fx-border-color: lightgray");
+        max.setStyle("-fx-border-color: lightgray");
+        company.setStyle("-fx-border-color: lightgray");
+    }
+
+    private void mainScreen(Event event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/MainScreen.fxml"));
+            MainScreen controller = new MainScreen(inv);
+
+            loader.setController(controller);
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException e) {
+
+        }
     }
 
     private void addInHouse() {
@@ -204,46 +230,21 @@ public class AddPartController implements Initializable {
 
     }
 
-    private void resetFieldsStyle() {
-        name.setStyle("-fx-border-color: lightgray");
-        count.setStyle("-fx-border-color: lightgray");
-        price.setStyle("-fx-border-color: lightgray");
-        min.setStyle("-fx-border-color: lightgray");
-        max.setStyle("-fx-border-color: lightgray");
-        company.setStyle("-fx-border-color: lightgray");
-    }
-
-    private void mainScreen(Event event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/MainScreen.fxml"));
-            MainScreenController controller = new MainScreenController(inv);
-
-            loader.setController(controller);
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.show();
-        } catch (IOException e) {
-
-        }
-    }
 
     private boolean checkValue(TextField field) {
         boolean error = false;
         try {
             if (field.getText().trim().isEmpty() | field.getText().trim() == null) {
-                AlertMessage.errorPart(1, field);
+                Alert.errorPart(1, field);
                 return true;
             }
             if (field == price && Double.parseDouble(field.getText().trim()) < 0) {
-                AlertMessage.errorPart(5, field);
+                Alert.errorPart(5, field);
                 error = true;
             }
         } catch (Exception e) {
             error = true;
-            AlertMessage.errorPart(3, field);
+            Alert.errorPart(3, field);
             System.out.println(e);
 
         }
@@ -253,11 +254,11 @@ public class AddPartController implements Initializable {
     private boolean checkType(TextField field) {
 
         if (field == price & !field.getText().trim().matches("\\d+(\\.\\d+)?")) {
-            AlertMessage.errorPart(3, field);
+            Alert.errorPart(3, field);
             return true;
         }
         if (field != price & !field.getText().trim().matches("[0-9]*")) {
-            AlertMessage.errorPart(3, field);
+            Alert.errorPart(3, field);
             return true;
         }
         return false;
